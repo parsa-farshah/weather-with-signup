@@ -21,6 +21,18 @@ Using multiple powerful APIs and an interactive UI, you can easily check tempera
 - 📊 **Temperature Charts** — High & low temperatures over 5 days using **Chart JS**
 - 🌐 **Fully Responsive** — Works on desktop, tablet, and mobile
 
+## 🧑‍💻 User Features (MockAPI Integration)
+
+🔐 Sign Up — ثبت‌نام کاربر جدید و ذخیره اطلاعات در MockAPI
+
+🔑 Sign In — ورود کاربر با بررسی ایمیل و رمز عبور از MockAPI
+
+✏️ Edit Profile — ویرایش نام، ایمیل یا رمز عبور کاربر از طریق PUT در MockAPI
+
+🗑️ Delete Account — حذف حساب کاربر از سرور MockAPI
+
+✅ User Validation & Error Handling — بررسی ورود نادرست و نمایش پیام خطا
+
 ---
 
 ## 🛠️ APIs Used

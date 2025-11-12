@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather PWA</title>
+    <link rel="stylesheet" href="src/styles/output.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="shortcut icon"
+      href="src/images/favicon.png"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+    />
+    <link rel="manifest" href="manifest.json" />
+    <style>
+      .autoplay-progress {
+        position: absolute;
+        right: 16px;
+        bottom: 16px;
+        z-index: 10;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: black;
+        background-color: aliceblue;
+        border-radius: 50%;
+      }
+
+      .autoplay-progress svg {
+        --progress: 0;
+        position: absolute;
+        left: 0;
+        top: 0px;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+        stroke-width: 4px;
+        stroke: black;
+        fill: none;
+        stroke-dashoffset: calc(125.6px * (1 - var(--progress)));
+        stroke-dasharray: 125.6;
+        transform: rotate(-90deg);
+      }
+
+      .swiper-button-next,
+      .swiper-button-prev {
+        color: black;
+        background-color: rgba(128, 128, 128, 0.767);
+        border-radius: 50%;
+      }
+      .swiper-button-next svg,
+      .swiper-button-prev svg {
+        width: 70%;
+        height: 70%;
+      }
+      .swiper-pagination-bullet {
+        background: #ebebeb;
+        opacity: 0.6;
+      }
+
+      .swiper-pagination-bullet-active {
+        background: #0099ff;
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body
+    class="w-full bg-[url(../images/darkBg.jfif)] bg-[url(../images/white1.jfif)] bg-cover bg-no-repeat h-full"
+  >
+    <!-- all sections -->
+    <main
+      id="logForm"
+      class="w-full h-full bg-radial from-[#0084ff] to-[#003465] flex justify-center items-center text-white overflow-hidden fixed z-50"
+    >
+      <img
+        class="w-20 h-20 absolute top-1 left-[30%] overflow-hidden"
+        src="src/images/Group.png"
+        alt=""
+      />
+      <img
+        class="w-[100px] absolute bottom-5 left-[2%] md:left-[10%] mix-blend-luminosity z-0 overflow-hidden"
+        src="src/images/Group (7).png"
+        alt=""
+      />
+      <img
+        class="w-[200px] absolute top-[5%] left-[60%] md:left-[55%] mix-blend-luminosity z-0 overflow-hidden hidden md:flex"
+        src="src/images/Group (7).png"
+        alt=""
+      />
+      <img
+        class="w-20 absolute left-[80%] md:left-[70%] top-[65%] -translate-1/2 z-10 mix-blend-luminosity overflow-hidden"
+        src="src/images/Group (5).png"
+        alt=""
+      />
+      <img
+        class="w-14 absolute left-[88%] md:left-[72%] top-[72%] md:top-[70%] -translate-1/2 z-10 mix-blend-luminosity overflow-hidden"
+        src="src/images/Group (5).png"
+        alt=""
+      />
+      <img
+        class="w-[50px] h-[30px] absolute left-[8%] md:left-[28%] top-[75%] md:top-[69%] -translate-1/2 z-10 mix-blend-luminosity overflow-hidden"
+        src="src/images/Group (1).png"
+        alt=""
+      />
+      <img
+        class="w-[100px] h-[60px] absolute left-[10%] md:left-[30%] top-[68%] md:top-[62%] -translate-1/2 z-10 mix-blend-luminosity overflow-hidden"
+        src="src/images/Group (1).png"
+        alt=""
+      />
+      <!-- page center -->
+      <div
+        class="w-[90%] md:w-[70%] h-[95%] rounded-3xl bg-radial from-[#0084ffa2] to-[#003465b7] shadow-[24px] flex justify-center items-center relative z-10 overflow-hidden"
+      >
+        <!----------------------------------- log in ------------------------->
+        <div
+          id="signInWrapper"
+          class="w-[90%] sm:w-[70%] md:w-[60%] lg:w-[40%] h-fit rounded-[28px] bg-[#5882c146] border border-[#8ea2be77] py-5 px-[8%] absolute -left-full top-1/2 -translate-1/2 duration-300"
+        >
+          <!-- section bottom -->
+          <div class="w-full h-full flex flex-col gap-y-6">
+            <h5 class="giloryBold text-2xl text-center">Login</h5>
+            <!-- email -->
+            <div>
+              <label class="giloryMedium text-[13px]" for="email">Email</label>
+              <input
+                id="signInEmail"
+                class="giloryMedium text-[13px] w-full h-8 bg-white rounded-sm mt-2 border border-[#BCBEC0] pl-4 py-2 text-[#8a8a8a] focus:outline-none"
+                type="text"
+                name=""
+                id="email"
+                placeholder="username@gmail.com"
+                autocomplete="off"
+              />
+            </div>
+            <!-- end email -->
+            <!-- password -->
+            <div>
+              <label class="giloryMedium text-[13px]" for="password"
+                >Password</label
+              >
+              <input
+                id="signInPassword"
+                class="giloryMedium text-[13px] w-full h-8 bg-white rounded-sm mt-2 border border-[#BCBEC0] pl-4 py-2 text-[#8a8a8a] mb-2 outline-none"
+                type="text"
+                name=""
+                id="password"
+                placeholder="Password"
+                autocomplete="off"
+              />
+              <span class="giloryMedium text-[13px]">Forgot Password ?</span>
+              <h4
+                id="errorLogIn"
+                class="mt-2 hidden text-xl border rounded-sm p-1"
+              >
+                User Not Found
+              </h4>
+            </div>
+            <!-- end password -->
+            <!-- button -->
+            <div>
+              <button
+                id="signInBtn"
+                class="bg-[#003465] w-full py-2.5 flex justify-center items-center rounded-lg cursor-pointer giloryBold"
+              >
+                Sign in
+              </button>
+              <h5
+                id="signUpPage"
+                class="text-[11px] giloryMedium mt-2 cursor-pointer"
+              >
+                Dont't have an account yet? Sign up
+              </h5>
+            </div>
+            <!-- end button -->
+          </div>
+        </div>
+        <!--------------------------------- sign up ---------------------------->
+        <div
+          id="signUpWrapper"
+          class="w-[90%] sm:w-[70%] md:w-[60%] lg:w-[40%] h-fit rounded-[28px] bg-[#5882c146] border border-[#8ea2be77] py-5 px-[8%] duration-300 absolute left-1/2 top-1/2 -translate-1/2 pb-3"
+        >
+          <!-- logo -->
+          <!-- <div class="w-full flex justify-center">
+            <img
+              class="w-10 h-10 opacity-100"
+              src="src/images/login.png"
+              alt=""
+            />
+          </div> -->
+          <!-- section bottom -->
+          <div class="w-full h-full flex flex-col gap-y-6">
+            <h5 class="mt-3 giloryBold text-2xl text-center">Sign up</h5>
+            <!-- email -->
+            <div>
+              <label class="giloryMedium text-[13px]" for="userName"
+                >User Name</label
+              >
+              <input
+                class="giloryMedium text-[13px] w-full h-8 bg-white rounded-sm mt-2 border border-[#BCBEC0] pl-4 py-2 text-[#8a8a8a] focus:outline-none"
+                type="text"
+                name=""
+                id="userName"
+                placeholder="James"
+                autocomplete="off"
+              />
+              <h5
+                id="errorUserName"
+                class="w-full giloryMedium border p-1 text-[#ffffffe3] rounded-md font-light text-[13px] mt-2 hidden"
+              >
+                Invalid username. Use 3–15 lowercase letters, numbers, “_” or
+                “-”
+              </h5>
+            </div>
+            <!-- end email -->
+            <!-- email -->
+            <div>
+              <label class="giloryMedium text-[13px]" for="email">Email</label>
+              <input
+                class="giloryMedium text-[13px] w-full h-8 bg-white rounded-sm mt-2 border border-[#BCBEC0] pl-4 py-2 text-[#8a8a8a] focus:outline-none"
+                type="text"
+                name=""
+                id="email"
+                placeholder="username@gmail.com"
+                autocomplete="off"
+              />
+              <h5
+                id="errorEmail"
+                class="w-full giloryMedium border p-1 text-[#ffffffe3] rounded-md font-light text-[13px] mt-2 hidden"
+              >
+                Email Is Wrong
+              </h5>
+            </div>
+            <!-- end email -->
+            <!-- password -->
+            <div>
+              <label class="giloryMedium text-[13px]" for="password"
+                >Password</label
+              >
+              <input
+                class="giloryMedium text-[13px] w-full h-8 bg-white rounded-sm mt-2 border border-[#BCBEC0] pl-4 py-2 text-[#8a8a8a] mb-2 outline-none"
+                type="text"
+                name=""
+                id="password"
+                placeholder="Password"
+                autocomplete="off"
+              />
+              <h5
+                id="errorPassword"
+                class="w-full giloryMedium border p-1 text-[#ffffffe3] rounded-md font-light text-[13px] mt-2 hidden"
+              >
+                Invalid password. Must be at least 8 characters long and include
+                uppercase, lowercase, number, and special character.
+              </h5>
+            </div>
+            <!-- end password -->
+            <!-- button -->
+            <div>
+              <h5
+                id="errorInputEmpty"
+                class="w-full giloryMedium border p-1 text-[#ffffffe3] font-semibold text-[13px] mt-2 hidden mb-2"
+              >
+                input is empty
+              </h5>
+              <button
+                id="signUp"
+                class="bg-[#003465] w-full py-2.5 flex justify-center items-center rounded-lg cursor-pointer giloryBold"
+              >
+                Sign up
+              </button>
+              <h5
+                id="errorExist"
+                class="w-full giloryMedium border p-1 text-[#ffffffe3] text-[13px] mt-2 hidden rounded-md font-light"
+              >
+                Account Already Exsit Do sign in
+              </h5>
+              <h5
+                id="sigInPage"
+                class="text-[11px] giloryMedium mt-2 cursor-pointer"
+              >
+                Already have an account? Sign in
+              </h5>
+            </div>
+            <!-- end button -->
+          </div>
+        </div>
+        <!----------------------------------- end signup --------------------------->
+      </div>
+      <!---------------------------------- alert  ---------------------------->
+      <div
+        id="alertSignUp"
+        class="w-full h-full fixed top-0 bg-[#272727be] z-40 flex justify-center items-center -left-full"
+      >
+        <h2
+          class="w-[300px] giloryBold bg-green-500 p-10 text-2xl rounded-2xl text-center"
+        >
+          Account created successfully.
+        </h2>
+      </div>
+      <!---------------------------------- alert deleted  ---------------------------->
+      <div
+        id="alertDelete"
+        class="w-full h-full fixed top-0 bg-[#272727be] z-40 flex justify-center items-center -left-full"
+      >
+        <h2
+          class="w-[300px] giloryBold bg-green-500 p-10 text-2xl rounded-2xl text-center"
+        >
+          Account Delete successfully.
+        </h2>
+      </div>
+      <!---------------------------------- alert edited  ---------------------------->
+      <div
+        id="alertEdit"
+        class="w-full h-full fixed top-0 bg-[#272727be] z-40 flex justify-center items-center -left-full"
+      >
+        <h2
+          class="w-[300px] giloryBold bg-green-500 p-10 text-2xl rounded-2xl text-center"
+        >
+          Account Edit successfully.
+        </h2>
+      </div>
+    </main>
+    <video
+      id="bgWhite"
+      class="fixed top-0 left-0 w-full h-full object-cover -z-10 backdrop-blur-2xl"
+      autoplay
+      muted
+      loop
+      src="src/images/light.mp4"
+    ></video>
+    <video
+      id="bgDark"
+      class="fixed top-0 left-0 w-full h-full object-cover -z-10 backdrop-blur-2xl hidden"
+      autoplay
+      muted
+      loop
+      src="src/images/dark.mp4"
+    ></video>
+    <!---------------------------------- loading --------------------->
+    <div
+      id="loading"
+      class="w-full h-[100vh] fixed bg-white z-50 justify-center items-center hidden"
+    >
+      <img
+        class="w-[100px] h-[100px] md:w-[180px] md:h-[180px]"
+        src="src/images/clouds-raining.gif"
+        alt=""
+      />
+    </div>
+    <!---------------------------------- search error ---------------------->
+    <div
+      id="errorSearch"
+      class="w-full h-[100vh] fixed bg-white z-50 justify-center items-center hidden flex-col"
+    >
+      <img
+        class="w-[200px] h-[200px]"
+        src="src/images/hello-cloud.gif"
+        alt=""
+      />
+      <h2
+        class="w-[70%] md:w-[20%] border text-center py-3 px-5 capitalize font-semibold bg-red-500 rounded-4xl text-white"
+      >
+        please search correct city and dont empty search or number
+      </h2>
+    </div>
+    <!---------------------------------- city wrong error ---------------------->
+    <div
+      id="errorCity"
+      class="w-full h-[100vh] fixed bg-white z-50 justify-center items-center hidden flex-col"
+    >
+      <img class="w-[200px] h-[200px]" src="src/images/cityError.webp" alt="" />
+      <h2
+        class="w-[70%] md:w-[20%] border text-center py-3 px-5 capitalize font-semibold bg-red-500 rounded-4xl text-white"
+      >
+        City not found
+      </h2>
+    </div>
+    <main>
+      <!------------------------------------ home ----------------------------->
+      <div class="w-full h-full pt-3 px-6">
+        <!-------------------------------------- city and menu -------------->
+        <div class="w-full flex items-center">
+          <!-- dark light -->
+          <div class="w-1/3">
+            <div
+              id="btnDarkLightWrapper"
+              class="w-[90%] md:w-1/4 rounded-full h-10 px-2 flex items-center bg-[#ececec] relative border border-[#b6b6b6ce]"
+            >
+              <figure
+                id="btnDarkLight"
+                class="w-[35%] h-[80%] p-1 rounded-full bg-white absolute top-1/2 left-[22%] -translate-1/2 duration-300 flex justify-center items-center"
+              >
+                <img
+                  id="lightBtn"
+                  class="w-6 h-6 cursor-pointer object-cover flex"
+                  src="src/images/sun.png"
+                  alt=""
+                />
+                <img
+                  id="darkBtn"
+                  class="w-6 h-6 cursor-pointer object-cover hidden"
+                  src="src/images/dark.png"
+                  alt=""
+                />
+              </figure>
+            </div>
+          </div>
+          <!-- city -->
+          <div class="w-1/3 flex gap-4 justify-center items-center">
+            <figure class="relative">
+              <img
+                id="shadowBlack"
+                class="w-[16px] h-5 md:w-32 md:h-10 absolute top-1 object-contain"
+                src="src/images/shadow.png"
+                alt=""
+              />
+              <img
+                id="locationBlack"
+                class="w-[15px] h-[19px] md:w-[19px] md:h-[23px]"
+                src="src/images/location.png"
+                alt=""
+              />
+              <img
+                id="shadowWhite"
+                class="w-32 h-10 absolute top-1 object-contain hidden"
+                src="src/images/shadowWhite.svg"
+                alt=""
+              />
+              <img
+                id="locationWhite"
+                class="w-[15px] h-[19px] md:w-[19px] md:h-[23px] hidden"
+                src="src/images/locationWhite.svg"
+                alt=""
+              />
+            </figure>
+            <div
+              id="cityName"
+              class="flex text-[9px] md:text-lg items-center gap-4"
+            ></div>
+          </div>
+          <!-- menu -->
+          <div class="w-1/3 flex justify-end items-center">
+            <img
+              class="w-[50px] h-[50px] md:w-[80px] md:h-[80px]"
+              src="src/images/favicon.png"
+              alt=""
+            />
+          </div>
+        </div>
+        <!---------------------------------------- updating --------------->
+        <div
+          class="w-[90%] mx-auto flex justify-center items-center mt-4 gap-4 relative"
+        >
+          <!-- arrowLeft for 4days show -->
+          <svg
+            id="arrL4day"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="black"
+            class="absolute -left-8 md:left-0 -translate-y-1/2 top-1/2 w-5 h-5 hidden cursor-pointer duration-500 hover:scale-125"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 19.5 8.25 12l7.5-7.5"
+            />
+          </svg>
+
+          <!-- updating -->
+          <div
+            class="w-[180px] h-10 border px-3 rounded-4xl flex items-center gap-4"
+          >
+            <div
+              id="updatingDot"
+              class="animate-ping w-1 h-1 bg-black rounded-full"
+            ></div>
+            <span class="text-lg font-semibold text-[12px]">Updating</span>
+          </div>
+          <!-- search -->
+          <div class="w-[180px] h-10 relative">
+            <input
+              id="search"
+              class="w-full h-full border rounded-3xl px-3"
+              placeholder="Search"
+              type="text"
+              autocomplete="off"
+            />
+            <button
+              id="searchBtn"
+              class="w-11 h-[70%] rounded-4xl font-semibold cursor-pointer bg-[#ececec] absolute top-1/2 -translate-y-1/2 right-2 text-[10px]"
+            >
+              search
+            </button>
+          </div>
+        </div>
+        <!-- current weather , visbility , day difrrent weather diffrent time -->
+        <div
+          id="sectionWeatherCurrent"
+          class="w-full flex flex-wrap justify-between"
+        >
+          <!------------------ current weather --------------------->
+          <div
+            id="currentWeather"
+            class="w-[90%] md:w-[50%] backdrop-blur-sm bg-[#ffffff23] relative rounded-4xl h-[250px] mx-auto md:mx-0 mt-24 md:mt-4 px-[5%] flex justify-between duration-700"
+          >
+            <!-- left side -->
+            <div class="w-1/2 h-full pt-[110px]">
+              <img
+                id="iconCurrent"
+                class="w-[190px] h-[160] md:w-[215px] md:h-[197px] absolute -top-24"
+                src="src/icons/200.png"
+                alt=""
+              />
+              <h5
+                id="weatherMain"
+                class="inter font-extrabold text-xl md:text-3xl flex w-full"
+              ></h5>
+              <h6
+                class="text-[15px] md:text-[17px] lg:text-[20px] font-semibold mt-4"
+              >
+                Current Weather
+              </h6>
+            </div>
+            <!-- right side -->
+            <div class="w-[40%] flex flex-col items-end">
+              <!-- temp -->
+              <h3
+                id="mainTemp"
+                class="font-extrabold text-[75px] bg-clip-text w-full"
+              ></h3>
+              <!-- feels like -->
+              <h6 id="feelsLike" class="font-normal w-full"></h6>
+              <!-- date current -->
+              <h5 id="currentDateWrapper" class="font-semibold w-full"></h5>
+              <span id="tempMaxMin" class="font-semibold w-full"></span>
+            </div>
+          </div>
+
+          <!-- current weather visibility -->
+          <div
+            id="visibiltiesWrapper"
+            class="w-[90%] md:w-[45%] backdrop-blur-sm bg-[#ffffff23] h-[147px] md:h-[250px] overflow-hidden mx-auto mt-4 rounded-[20px] flex justify-around items-center duration-500"
+          >
+            <!-- visibility -->
+            <div
+              class="w-[30%] h-[80%] bg-[#0000003d] rounded-[15px] capitalize flex flex-col justify-center items-center"
+            >
+              <img
+                class="w-[59px] h-[59px]"
+                src="src/icons/visibility.png"
+                alt=""
+              />
+              <span class="text-[15px] font-semibold">visibility</span>
+              <h5 id="visibility" class="text-[12px] font-semibold"></h5>
+            </div>
+            <!-- Humidity -->
+            <div
+              class="w-[30%] h-[80%] bg-[#0000003d] rounded-[15px] capitalize flex flex-col justify-center items-center"
+            >
+              <img
+                class="w-[59px] h-[59px]"
+                src="src/icons/Humidity.svg"
+                alt=""
+              />
+              <span class="text-[15px] font-semibold">Humidity</span>
+              <h5 id="humidity" class="text-[12px] font-semibold"></h5>
+            </div>
+            <!-- wind speed -->
+            <div
+              class="w-[30%] h-[80%] bg-[#0000003d] rounded-[15px] flex flex-col justify-center items-center"
+            >
+              <img
+                class="w-[59px] h-[59px]"
+                src="src/icons/windSpeed.svg"
+                alt=""
+              />
+              <span class="text-[15px] font-semibold capitalize"
+                >Wind Speed</span
+              >
+              <h5 id="windSpeed" class="text-[12px] font-semibold"></h5>
+            </div>
+          </div>
+          <!-- today other hour weather -->
+          <div
+            id="todayWeather"
+            class="w-[90%] backdrop-blur-sm bg-[#ffffff23] md:w-[50%] h-auto md:h-[400px] relative rounded-4xl px-3 py-3 mt-4 mx-auto md:mx-0"
+          >
+            <h3 class="font-extrabold text-[20px] text-white"></h3>
+            <!-- title -->
+            <div class="flex justify-between">
+              <span class="font-semibold text-[20px]">Today</span>
+              <div
+                id="fiveDayBtn"
+                class="flex gap-4 justify-center items-center cursor-pointer hover:scale-110 duration-300"
+              >
+                <span class="font-semibold text-[13px] capitalize"
+                  >next 4 Days</span
+                >
+                <svg
+                  id="arrowNxt4day"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="black"
+                  class="w-4 h-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                  />
+                </svg>
+              </div>
+            </div>
+            <!-- hours weather -->
+            <div
+              id="daysWrapper"
+              class="daysWrapper w-full flex flex-wrap gap-4 gap-y-4 mt-4"
+            ></div>
+          </div>
+          <!-- chart today -->
+          <section
+            id="todayChartWrapper"
+            class="w-[90%] md:w-[45%] px-4 h-[400px] overflow-hidden relative rounded-4xl mx-auto mt-4 flex justify-around items-center duration-500 backdrop-blur-sm bg-[#ffffff23]"
+          >
+            <div class="w-full h-[300px]">
+              <canvas
+                id="todayChart"
+                style="width: 100%; height: 100%"
+              ></canvas>
+            </div>
+          </section>
+        </div>
+        <!-- 5day forecast -->
+        <div
+          id="forecat5day"
+          class="w-[95%] md:w-[90%] relative mx-auto mt-10 md:mt-4 justify-between duration-700 hidden flex-wrap gap-y-4 pb-10"
+        ></div>
+      </div>
+      <!-------------------------------------- map page ----------------------->
+      <div
+        id="mapDiv"
+        class="w-full px-[3%] mx-auto bg-contain bg-no-repeat hidden mt-6 gap-4 flex-wrap justify-center"
+      >
+        <!-- slider -->
+        <!-- <div
+          class="w-[90%] md:w-[48%] h-[500px] overflow-hidden backdrop-blur-sm bg-[#ffffff23] p-2 rounded-4xl"
+        >
+          <div class="swiper mySwiper rounded-4xl w-full h-full">
+            <div class="swiper-wrapper w-full h-full">
+              image1
+              <div class="swiper-slide w-full">
+                <img
+                  id="unsplashImg"
+                  class="w-full h-full object-cover rounded-4xl"
+                  src=""
+                  alt=""
+                  loading="lazy"
+                />
+              </div>
+              image2
+              <div class="swiper-slide w-full h-full">
+                <img
+                  id="unsplashImg2"
+                  class="w-full h-full object-cover mx-auto rounded-4xl"
+                  src=""
+                  alt=""
+                  loading="lazy"
+                />
+              </div>
+              image 3
+              <div class="swiper-slide w-full h-full">
+                <img
+                  id="unsplashImg3"
+                  class="w-full h-full object-cover mx-auto rounded-4xl"
+                  src=""
+                  alt=""
+                  loading="lazy"
+                />
+              </div>
+              image 4
+              <div class="swiper-slide w-full h-full">
+                <img
+                  id="unsplashImg4"
+                  class="w-full h-full object-cover mx-auto rounded-4xl"
+                  src=""
+                  alt=""
+                  loading="lazy"
+                />
+              </div>
+              image 5
+              <div class="swiper-slide w-full h-full">
+                <img
+                  id="unsplashImg5"
+                  class="w-full h-full object-cover mx-auto rounded-4xl"
+                  src=""
+                  alt=""
+                  loading="lazy"
+                />
+              </div>
+              image 6
+              <div class="swiper-slide w-full h-full">
+                <img
+                  id="unsplashImg6"
+                  class="w-full h-full object-cover mx-auto rounded-4xl"
+                  src=""
+                  alt=""
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+            <div class="autoplay-progress">
+              <svg viewBox="0 0 48 48">
+                <circle cx="24" cy="24" r="20"></circle>
+              </svg>
+              <span></span>
+            </div>
+          </div>
+        </div> -->
+        <!-- end slider -->
+        <!-- map container -->
+        <div
+          class="w-[90%] bg-[#ffffff1e] md:w-[30%] h-[250px] p-2 rounded-4xl relative z-20 overflow-hidden flex justify-center items-center"
+          id="mapContainer"
+        ></div>
+      </div>
+
+      <!-------------------------------------- chart page -------------------->
+      <section id="chartPage" class="hidden mt-4">
+        <div
+          class="w-[80%] md:w-[50%] h-[300px] md:h-auto mx-auto backdrop-blur-sm bg-[#ffffff23] rounded-4xl p-6"
+        >
+          <canvas id="myChart" style="width: 100%; height: 100%"></canvas>
+        </div>
+
+        <div
+          class="w-[80%] md:w-[50%] h-[300px] md:h-auto mx-auto mt-10 backdrop-blur-sm bg-[#ffffff23] rounded-4xl p-6"
+        >
+          <canvas id="tempMin" style="width: 100%; height: 100%"></canvas>
+        </div>
+      </section>
+
+      <!-- prof page -->
+      <div class="hidden flex-col" id="profPage">
+        <!------------------------------------ my account ---------------------->
+        <div
+          id="myAccount"
+          class="w-[95%] h-[95%] py-10 px-[5%] sm:px-[15%] md:px-[30%] hidden rounded-4xl mx-auto my-10 backdrop-blur-sm bg-[#ffffff23]"
+        >
+          <h2 class="text-center giloryBold text-2xl">My Account</h2>
+          <div class="mt-8 flex flex-col gap-y-6">
+            <!-- username -->
+            <div>
+              <label class="w-full giloryMedium text-[13px]" for=""
+                >username</label
+              >
+              <input
+                id="myUserName"
+                class="giloryMedium text-[13px] w-full h-8 bg-white rounded-sm mt-2 border border-[#BCBEC0] pl-4 py-2 text-[#8a8a8a] mb-2 outline-none"
+                type="text"
+                name=""
+                id=""
+              />
+            </div>
+            <!-- email -->
+            <div>
+              <label class="w-full giloryMedium text-[13px]" for=""
+                >email</label
+              >
+              <input
+                id="myEmail"
+                class="giloryMedium text-[13px] w-full h-8 bg-white rounded-sm mt-2 border border-[#BCBEC0] pl-4 py-2 text-[#8a8a8a] mb-2 outline-none"
+                type="text"
+                name=""
+                id=""
+              />
+            </div>
+            <!-- password -->
+            <div>
+              <label class="w-full giloryMedium text-[13px]" for=""
+                >Password</label
+              >
+              <input
+                id="myPassword"
+                class="giloryMedium text-[13px] w-full h-8 bg-white rounded-sm mt-2 border border-[#BCBEC0] pl-4 py-2 text-[#8a8a8a] mb-2 outline-none"
+                type="text"
+                name=""
+                id=""
+              />
+            </div>
+            <div id="btnEdit" class="mt-5 flex flex-wrap gap-y-7 gap-5"></div>
+          </div>
+        </div>
+        <section
+          class="w-[350px] rounded-4xl mx-auto my-6 backdrop-blur-sm bg-[#ffffff23] overflow-hidden"
+        >
+          <img
+            class="w-full h-[350px] backdrop-blur-sm bg-[#ffffff23] rounded-4xl object-cover object-top"
+            src="src/images/me.PNG"
+            alt=""
+          />
+          <h2 class="text-center capitalize mt-1 text-sm py-2 font-black">
+            Parsa Dehghan Pour
+          </h2>
+          <h2 class="text-center capitalize text-sm py-2 font-semibold">
+            Front End developer
+          </h2>
+          <h2 class="text-center capitalize text-sm py-2" dir="ltr">
+            connect With me:
+          </h2>
+          <ul class="flex w-full justify-around py-6">
+            <li>
+              <a href="http://github.com/parsa-farshah" target="_blank">
+                <img
+                  class="w-[45px] h-[45px] hover:scale-125 transition-all duration-500"
+                  src="src/icons/github2.png"
+                  alt="GitHub"
+                />
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.instagram.com/parsa_dehghanpour_dv"
+                target="_blank"
+              >
+                <img
+                  class="w-[45px] h-[45px] hover:scale-125 transition-all duration-500"
+                  src="src/icons/instagram.png"
+                  alt="Instagram"
+                />
+              </a>
+            </li>
+            <li>
+              <a
+                href="http://linkedin.com/in/parsa-dehghan-pour-farashah-85ab04250"
+                target="_blank"
+              >
+                <img
+                  class="w-[45px] h-[45px] hover:scale-125 transition-all duration-500"
+                  src="src/icons/linkedin.png"
+                  alt="LinkedIn"
+                />
+              </a>
+            </li>
+          </ul>
+        </section>
+      </div>
+      <!-------------------------------------- navbar ------------------->
+      <div
+        id="nav"
+        class="w-[50%] h-[60px] sm:h-[70px] md:w-[35%] xl:h-[90px] mt-4 mx-auto rounded-[100px] mb-10"
+      >
+        <ul
+          id="navUl"
+          class="flex justify-around h-full items-center *:bg-[#000000]/20 *:w-[22%] *:h-[80%] *:md:w-[15%] *:flex *:justify-center *:duration-500 *:overflow-hidden *:items-center *:rounded-full"
+        >
+          <!-- home -->
+          <li>
+            <div
+              id="homeBtn"
+              class="w-full h-full bg-[#000000]/50 flex justify-center items-center cursor-pointer group"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="#000000"
+                class="w-[40%] h-[40%] group-hover:scale-110 duration-300"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                />
+              </svg>
+            </div>
+          </li>
+          <!-- location -->
+          <li>
+            <div
+              id="mapBtn"
+              class="w-full h-full flex justify-center items-center group cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="#000000"
+                class="w-[40%] h-[40%] group-hover:scale-110 duration-300"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                />
+              </svg>
+            </div>
+          </li>
+          <!-- chart -->
+          <li>
+            <div
+              id="chartBtn"
+              class="w-full h-full flex justify-center items-center group cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="#000000"
+                class="w-[40%] h-[40%] group-hover:scale-110 duration-300"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605"
+                />
+              </svg>
+            </div>
+          </li>
+          <!-- nottif -->
+          <li id="prof">
+            <div
+              class="w-full h-full bg-red-500 flex justify-center items-center group cursor-pointer relative"
+            >
+              <img
+                class="w-8 h-10 md:w-12 md:h-14 absolute bottom-0"
+                src="src/images/parsa png.png"
+                alt=""
+              />
+            </div>
+          </li>
+        </ul>
+      </div>
+    </main>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="src/js/index.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</html>

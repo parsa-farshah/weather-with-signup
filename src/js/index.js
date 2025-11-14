@@ -17,6 +17,8 @@ let $updateProf = document.querySelector("#updateProf");
 let $btnEdit = document.querySelector("#btnEdit");
 let $alertDelete = document.querySelector("#alertDelete");
 let $alertEdit = document.querySelector("#alertEdit");
+console.log($alertEdit);
+
 // sign in
 let $signInBtn = document.querySelector("#signInBtn");
 let $signInEmail = document.querySelector("#signInEmail");
@@ -1472,41 +1474,7 @@ $homeBtn.addEventListener("click", () => {
   $chartPage.classList.add("hidden");
 });
 
-//////////////////////////////////////////////////////////////// unsplash API
-let $unsplashImg = document.querySelector("#unsplashImg");
-let $unsplashImg2 = document.querySelector("#unsplashImg2");
-let $unsplashImg3 = document.querySelector("#unsplashImg3");
-let $unsplashImg4 = document.querySelector("#unsplashImg4");
-let $unsplashImg5 = document.querySelector("#unsplashImg5");
-let $unsplashImg6 = document.querySelector("#unsplashImg6");
 
-function unsplashApi() {
-  $loading.classList.remove("hidden");
-  $loading.classList.add("flex");
-  asynAwait(
-    `https://api.unsplash.com/search/photos?query=${nameCitySearch}&client_id=smhJYs6efkWq2MNJMlDHWSIj00i5Z8W0rZ9GD5OntsE`
-  ).then((val) => {
-    let $srcUnsplash = val.results[1].urls.regular;
-    let $srcUnsplash2 = val.results[2].urls.regular;
-    let $srcUnsplash3 = val.results[3].urls.regular;
-    let $srcUnsplash4 = val.results[4].urls.regular;
-    let $srcUnsplash5 = val.results[5].urls.regular;
-    let $srcUnsplash6 = val.results[6].urls.regular;
-
-    $unsplashImg.setAttribute("src", `${$srcUnsplash}`);
-    $unsplashImg2.setAttribute("src", `${$srcUnsplash2}`);
-    $unsplashImg3.setAttribute("src", `${$srcUnsplash3}`);
-    $unsplashImg4.setAttribute("src", `${$srcUnsplash4}`);
-    $unsplashImg5.setAttribute("src", `${$srcUnsplash5}`);
-    $unsplashImg6.setAttribute("src", `${$srcUnsplash6}`);
-
-    $unsplashImg.onload = () => {
-      $loading.classList.remove("flex");
-      $loading.classList.add("hidden");
-    };
-  });
-}
-unsplashApi();
 
 /////////////////////////////////////////////////// map API
 let $mapVal = "Tehran";
@@ -1874,9 +1842,8 @@ function removeBtn(id) {
     .then((task) => {
       // alert add Account deleted successfully.
       $alertDelete.classList.remove("-left-full");
-      $alertDelete.classList.add("-left-0");
+
       setTimeout(() => {
-        $alertDelete.classList.remove("-left-0");
         $alertDelete.classList.add("-left-full");
       }, 1500);
       setTimeout(() => {

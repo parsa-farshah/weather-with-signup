@@ -780,6 +780,9 @@
   .bg-\[\#ffffff46\] {
     background-color: #ffffff46;
   }
+  .bg-\[\#ffffff\] {
+    background-color: #ffffff;
+  }
   .bg-black {
     background-color: var(--color-black);
   }

@@ -1,5 +1,23 @@
 # 🌦️ Fresh Weather PWA With Login
 
+Add a new update
+
+🔐 Authentication System (MockAPI CRUD)
+
+This project includes a fully functional authentication system built using MockAPI, supporting all CRUD operations:
+
+Create (Sign Up) — Register new users and store their data in MockAPI
+
+Read (Sign In) — Fetch and validate user credentials from MockAPI
+
+Update (Edit Profile) — Update user name, email, or password via PUT requests
+
+Delete (Delete Account) — Completely remove the user account from MockAPI
+
+Logout — Clear stored session data and log the user out
+
+This structure makes the login/logout system realistic, reliable, and fully scalable within the PWA.
+
 A **modern, responsive weather Progressive Web App (PWA)** that shows weather forecasts for different cities.  
 Using multiple powerful APIs and an interactive UI, you can easily check temperatures, 4-day forecasts, precise location on the map, and city images.
 
@@ -56,33 +74,59 @@ Using multiple powerful APIs and an interactive UI, you can easily check tempera
 ---
 
 # 🖼️ Project Screenshots 🌟 Overview
+
 <img src="src/images/cover white.png" alt="Fresh Swiper Overview" width="100%" />
 
 # 🖼️ Project Screenshots 🌟 Overview
+
 <img src="src/images/cover.png" alt="Fresh Swiper Overview" width="100%" />
 
 ## 💻 Desktop View
+
+<img src="src/images/12.png" alt="Fresh Swiper Desktop View"  width="100%" />
+
+## 💻 Desktop View
+
+<img src="src/images/13.png" alt="Fresh Swiper Desktop View"  width="100%" />
+
+## 💻 Desktop View
+
+<img src="src/images/14.png" alt="Fresh Swiper Desktop View"  width="100%" />
+
+### 📱 Mobile View
+
+<img src="src/images/15.png" alt="Fresh Swiper Mobile View" width="60%" />
+
+### 📱 Mobile View
+
+<img src="src/images/16.png" alt="Fresh Swiper Mobile View" width="60%" />
+
+## 💻 Desktop View
+
 <img src="src/images/1.png" alt="Fresh Swiper Desktop View"  width="100%" />
 
 ## 💻 Desktop View
-<img src="src/images/1.png" alt="Fresh Swiper Desktop View"  width="100%" /> 
 
-## 💻 Desktop View
 <img src="src/images/2.png" alt="Fresh Swiper Desktop View" width="100%" />
 
 ## 💻 Desktop View
+
 <img src="src/images/3.png" alt="Fresh Swiper Desktop View"  width="100%" />
 
 ## 💻 Desktop View
+
 <img src="src/images/4.png" alt="Fresh Swiper Desktop View"  width="100%" />
 
 ## 💻 Desktop View
+
 <img src="src/images/5.png" alt="Fresh Swiper Desktop View"  width="100%" />
 
 ## 💻 Desktop View
+
 <img src="src/images/6.png" alt="Fresh Swiper Desktop View"  width="100%" />
 
 ## 💻 Desktop View
+
 <img src="src/images/8.png" alt="Fresh Swiper Desktop View"  width="100%" />
 
 ### 📱 Mobile View

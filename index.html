@@ -17,6 +17,8 @@
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
     />
     <link
       rel="stylesheet"
@@ -106,7 +108,7 @@
     <!-- all sections -->
     <main
       id="logForm"
-      class="w-full h-full bg-radial  flex justify-center items-center text-black overflow-hidden fixed z-50"
+      class="w-full h-full bg-radial flex justify-center items-center text-black overflow-hidden fixed z-50"
     >
       <video
         id="bgWhite"
@@ -153,7 +155,7 @@
       />
       <!-- page center -->
       <div
-        class="w-[90%] md:w-[70%] h-[95%] rounded-3xl bg-radial  shadow-[24px] flex justify-center items-center relative z-10 overflow-hidden"
+        class="w-[90%] md:w-[70%] h-[95%] rounded-3xl bg-radial shadow-[24px] flex justify-center items-center relative z-10 overflow-hidden"
       >
         <!----------------------------------- log in ------------------------->
         <div
@@ -664,90 +666,11 @@
       <!-------------------------------------- map page ----------------------->
       <div
         id="mapDiv"
-        class="w-full px-[3%] mx-auto bg-contain bg-no-repeat hidden mt-6 gap-4 flex-wrap justify-center"
+        class="w-full px-[3%] mx-auto hidden mt-6 gap-4 flex-wrap justify-center"
       >
-        <!-- slider -->
-        <!-- <div
-          class="w-[90%] md:w-[48%] h-[500px] overflow-hidden backdrop-blur-sm bg-[#ffffff23] p-2 rounded-4xl"
-        >
-          <div class="swiper mySwiper rounded-4xl w-full h-full">
-            <div class="swiper-wrapper w-full h-full">
-              image1
-              <div class="swiper-slide w-full">
-                <img
-                  id="unsplashImg"
-                  class="w-full h-full object-cover rounded-4xl"
-                  src=""
-                  alt=""
-                  loading="lazy"
-                />
-              </div>
-              image2
-              <div class="swiper-slide w-full h-full">
-                <img
-                  id="unsplashImg2"
-                  class="w-full h-full object-cover mx-auto rounded-4xl"
-                  src=""
-                  alt=""
-                  loading="lazy"
-                />
-              </div>
-              image 3
-              <div class="swiper-slide w-full h-full">
-                <img
-                  id="unsplashImg3"
-                  class="w-full h-full object-cover mx-auto rounded-4xl"
-                  src=""
-                  alt=""
-                  loading="lazy"
-                />
-              </div>
-              image 4
-              <div class="swiper-slide w-full h-full">
-                <img
-                  id="unsplashImg4"
-                  class="w-full h-full object-cover mx-auto rounded-4xl"
-                  src=""
-                  alt=""
-                  loading="lazy"
-                />
-              </div>
-              image 5
-              <div class="swiper-slide w-full h-full">
-                <img
-                  id="unsplashImg5"
-                  class="w-full h-full object-cover mx-auto rounded-4xl"
-                  src=""
-                  alt=""
-                  loading="lazy"
-                />
-              </div>
-              image 6
-              <div class="swiper-slide w-full h-full">
-                <img
-                  id="unsplashImg6"
-                  class="w-full h-full object-cover mx-auto rounded-4xl"
-                  src=""
-                  alt=""
-                  loading="lazy"
-                />
-              </div>
-            </div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-pagination"></div>
-            <div class="autoplay-progress">
-              <svg viewBox="0 0 48 48">
-                <circle cx="24" cy="24" r="20"></circle>
-              </svg>
-              <span></span>
-            </div>
-          </div>
-        </div> -->
-        <!-- end slider -->
         <!-- map container -->
         <div
-          class="w-[90%] bg-[#ffffff1e] md:w-[30%] h-[250px] p-2 rounded-4xl relative z-20 overflow-hidden flex justify-center items-center"
+          class="w-[90%] bg-[#ffffff1e] md:w-[30%] h-[350px] p-2 rounded-4xl relative z-20 overflow-hidden flex justify-center items-center"
           id="mapContainer"
         ></div>
       </div>
@@ -971,5 +894,9 @@
   <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="src/js/index.js"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
 </html>

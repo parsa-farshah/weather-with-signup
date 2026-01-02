@@ -17,7 +17,6 @@ let $updateProf = document.querySelector("#updateProf");
 let $btnEdit = document.querySelector("#btnEdit");
 let $alertDelete = document.querySelector("#alertDelete");
 let $alertEdit = document.querySelector("#alertEdit");
-console.log($alertEdit);
 
 // sign in
 let $signInBtn = document.querySelector("#signInBtn");
@@ -178,10 +177,6 @@ $btnDarkLight.addEventListener("click", () => {
       weatherChartMin.upadate();
     }
   });
-
-  // bg div map
-  $mapDiv.classList.toggle("bg-[url(../images/bgMap.png)]");
-  $mapDiv.classList.toggle("bg-[url(../images/bgMapBlack2.png)]");
 });
 
 async function asynAwait(url) {
@@ -203,9 +198,11 @@ let $country = document.createElement("h3");
 
 ///////////////////////////////////// search add to url word
 let $search = document.querySelector("#search");
+console.log($search);
+
 let $searchBtn = document.querySelector("#searchBtn");
 
-let nameCitySearch = "tehran";
+let nameCitySearch = "london";
 
 let $daysWrapper = document.querySelector("#daysWrapper");
 
@@ -249,7 +246,7 @@ function weatherApi() {
         $errorCity.classList.add("hidden");
       }, 2500);
 
-      nameCitySearch = "tehran";
+      nameCitySearch = "london";
       weatherApi();
       return;
     }
@@ -1163,7 +1160,6 @@ function weatherApi() {
     $day4MaxTempDate = $day4MaxTempDate || $currentDate;
     $day5MaxTempDate = $day5MaxTempDate || $currentDate;
 
-    // حالا چارت‌ها
     if (weatherChart) weatherChart.destroy();
     const ctx = document.getElementById("myChart");
     weatherChart = new Chart(ctx, {
@@ -1474,10 +1470,7 @@ $homeBtn.addEventListener("click", () => {
   $chartPage.classList.add("hidden");
 });
 
-
-
 /////////////////////////////////////////////////// map API
-let $mapVal = "Tehran";
 function mapApi() {
   asynAwait(
     `
@@ -1493,9 +1486,10 @@ https://nominatim.openstreetmap.org/search?format=json&q=${nameCitySearch}&limit
     mapDiv.id = "map";
     mapDiv.classList.add("rounded-4xl");
     mapDiv.style.width = "80%";
-    mapDiv.style.height = "200px";
+    mapDiv.style.height = "300px";
     mapDiv.style.border = "1px solid #7a7a7ae1";
     container.appendChild(mapDiv);
+    console.log(nameCitySearch);
 
     const map = L.map("map", { tap: false }).setView([$lat, $lon], 11);
 
@@ -1563,14 +1557,12 @@ https://nominatim.openstreetmap.org/search?format=json&q=${nameCitySearch}&limit
             weatherApi();
             nameCitySearch = "tehran";
             weatherApi();
-            unsplashApi();
             mapApi();
             $search.value = "";
             $search.focus();
           } else {
             nameCitySearch = city;
             weatherApi();
-            unsplashApi();
             mapApi();
             $search.value = "";
             $search.focus();
@@ -1580,33 +1572,6 @@ https://nominatim.openstreetmap.org/search?format=json&q=${nameCitySearch}&limit
   });
 }
 mapApi();
-
-//////////////////////////////////////////////// slider swiper
-
-const progressCircle = document.querySelector(".autoplay-progress svg");
-const progressContent = document.querySelector(".autoplay-progress span");
-var swiper = new Swiper(".mySwiper", {
-  spaceBetween: 30,
-  centeredSlides: true,
-  autoplay: {
-    delay: 2500,
-    disableOnInteraction: false,
-  },
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-  on: {
-    autoplayTimeLeft(s, time, progress) {
-      progressCircle.style.setProperty("--progress", 1 - progress);
-      progressContent.textContent = `${Math.ceil(time / 1000)}s`;
-    },
-  },
-});
 
 ///////////////////////////////////////////////////// search button click
 $searchBtn.addEventListener("click", () => {
@@ -1636,25 +1601,15 @@ $searchBtn.addEventListener("click", () => {
     $search.focus();
   } else {
     nameCitySearch = $search.value;
+    console.log(nameCitySearch);
     weatherApi();
-    unsplashApi();
     mapApi();
     $search.value = "";
     $search.focus();
   }
 });
 
-// ///////// for pwa
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker
-    .register("serviceWorker.js")
-    .then((reg) => {
-      console.log("Service worker registred successfully", reg);
-    })
-    .catch((err) => {
-      console.log("service worker not registred !!", err);
-    });
-}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// go to sign in page
 $sigInBtnPage.addEventListener("click", () => {
@@ -1865,7 +1820,7 @@ function editBtn(id) {
     password: $myPassword.value,
   };
   fetch(`https://6912e51452a60f10c8232605.mockapi.io/users/${id}`, {
-    method: "PUT", // or PATCH
+    method: "PUT",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(editUser),
   })

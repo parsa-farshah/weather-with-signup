@@ -25,7 +25,7 @@ Using multiple powerful APIs and an interactive UI, you can easily check tempera
 
 ## 🌐 Live Demo
 
-[View Live Demo]((https://parsa-farshah.github.io/weather-with-signup/))
+[View Live Demo](https://parsa-farshah.github.io/weather-with-signup/)
 
 ---
 
